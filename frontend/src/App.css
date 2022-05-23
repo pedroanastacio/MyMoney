@@ -1,0 +1,37 @@
+:root {
+    --toastify-color-dark: #18292c;
+    --toastify-color-success: #00C781;
+    --toastify-color-error: #FF4040;
+    --toastify-color-warning: #FFAA15;
+    --toastify-color-info: #7e93a6;
+
+    --toastify-text-color-dark: #DADADA;
+
+    --toastify-font-family: 'Dosis';
+
+    --toastify-spinner-color: #00C781;
+}
+
+.Toastify__toast-body, 
+.grommet-tab span,
+.grommet-table span {
+    font-size: 1rem;
+}
+
+.Toastify__toast {
+    border-radius: 0;
+}
+
+.grommet-tab > div > div {
+    width: 5px;
+}
+
+.grommet-tab svg {
+    width: 20px;
+    height: 20px;
+}
+
+.grommet-table thead span {
+    font-weight: bold;
+}
+
