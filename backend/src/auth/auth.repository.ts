@@ -27,8 +27,4 @@ export class AuthRepository {
     async getRefreshTokenByUser(userId: string): Promise<RefreshToken> {
         return await this.refreshTokenModel.findOne({ user: userId });
     }
-
-    async deleteRefreshToken(userId: string): Promise<RefreshToken> {
-        return await this.refreshTokenModel.findOneAndDelete({ user: userId });
-    }
 }

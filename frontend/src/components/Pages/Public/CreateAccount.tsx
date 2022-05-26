@@ -11,6 +11,7 @@ import { LinkPrevious, UserAdd } from 'grommet-icons';
 import AuthService from '../../../services/auth';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { showErrorToast } from '../../../utils/showErrorToast';
 
 const schema = yup.object({
   name: yup
@@ -54,10 +55,10 @@ const CreateAccount: React.FC = () => {
 
     try {
       await AuthService.createUser(data);
-      toast.success('Conta criada com sucesso. Por favor, faça login.');
+      toast.success('Nova conta criada com sucesso');
       navigate('/login');
     } catch (error: any) {
-      toast.error(error);
+      showErrorToast(error);
     } finally {
       setLoading(false);
     }

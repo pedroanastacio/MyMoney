@@ -64,7 +64,7 @@ export class AuthService {
     return hashedRefreshToken;
   }
 
-  async authenticate(user: UserWithId): Promise<any> {
+  async generateTokens(user: UserWithId): Promise<any> {
     const payload = { sub: user._id };
     //Cria access e refresh tokens
     const accessToken = this.generateNewAcessToken(payload);
@@ -82,12 +82,8 @@ export class AuthService {
   }
 
   async login(user: UserWithId): Promise<any> {
-    const tokens = await this.authenticate(user);
+    const tokens = await this.generateTokens(user);
     const loggedUser = await this.userService.findById(user._id);
     return { ...tokens, user: loggedUser };
-  }
-
-  async deleteRefreshToken(user: UserWithId): Promise<RefreshToken> {
-    return await this.authRepository.deleteRefreshToken(user._id);
   }
 }

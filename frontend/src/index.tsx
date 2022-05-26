@@ -4,6 +4,8 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { injectStore } from './services/api';
+injectStore(store);
 
 const rootElement = document.getElementById('root')!;
 const root = createRoot(rootElement);

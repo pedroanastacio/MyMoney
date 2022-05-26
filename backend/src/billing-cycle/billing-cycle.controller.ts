@@ -19,7 +19,7 @@ import { BillingCycle } from './billing-cycle.schema';
 import { BillingCycleService } from './billing-cycle.service';
 
 @Controller('billing-cycle')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class BillingCycleController {
   constructor(private readonly billingCycleService: BillingCycleService) {}
 

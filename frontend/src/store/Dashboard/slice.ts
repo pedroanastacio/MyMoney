@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ISummaryState, RequestStatus } from '../../interfaces/ISummaryState';
+import BillingCycleService from '../../services/billingCycle';
 import DashboardService from '../../services/dashboard';
-import { toast } from 'react-toastify';
+import { showErrorToast } from '../../utils/showErrorToast';
 
 const initialState: ISummaryState = {
     summary: { credit: 0, debt: 0 },
@@ -11,7 +12,7 @@ const initialState: ISummaryState = {
 
 export const DashboardSlice = createSlice({
     name: 'dashboard',
-    initialState: initialState,
+    initialState,
     reducers: {},
     extraReducers(builder) {
         builder
@@ -25,7 +26,16 @@ export const DashboardSlice = createSlice({
             .addCase(DashboardService.fetchSummary.rejected, (state, action) => {
                 state.status = RequestStatus.failed;
                 state.error = action.payload as string;
-                toast.error(state.error);
+                showErrorToast(state.error);
+            })
+            .addCase(BillingCycleService.createBillingCycle.fulfilled, (state, action) => {
+                state.status = RequestStatus.idle;
+            })
+            .addCase(BillingCycleService.updateBillingCycle.fulfilled, (state, action) => {
+                state.status = RequestStatus.idle;
+            })
+            .addCase(BillingCycleService.deleteBillingCycle.fulfilled, (state, action) => {
+                state.status = RequestStatus.idle;
             })
     }
 })

@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthRepository } from './auth.repository';
 import * as bcrypt from 'bcrypt';

@@ -10,7 +10,7 @@ const initialState: ITabsState = {
 
 export const TabsSlice = createSlice({
     name: 'tabs',
-    initialState: initialState,
+    initialState,
     reducers: {
         setActiveIndex: (state, { payload: index }: PayloadAction<number>) => {
             state.activeIndex = index;

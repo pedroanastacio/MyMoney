@@ -96,8 +96,7 @@ const BillingCycleForm: React.FC<BillingCycleFormProps> = (props) => {
         try {
             await dispatch(props.action(data)).unwrap();
             dispatch(TabsSlice.actions.reset());
-        } catch (error: any) {
-            return;
+        } catch {
         } finally {
             setLoading(false);
         }

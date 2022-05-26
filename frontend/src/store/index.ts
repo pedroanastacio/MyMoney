@@ -9,9 +9,9 @@ export const store = configureStore({
         dashboard: DashboardSlice.reducer,
         tabs: TabsSlice.reducer,
         billingCycle: BillingCycleSlice.reducer,
-        auth: AuthSlice.reducer
+        auth: AuthSlice.reducer,
     }
 });
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

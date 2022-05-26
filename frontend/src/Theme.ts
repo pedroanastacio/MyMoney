@@ -133,7 +133,7 @@ const Theme = deepMerge({
     },
     disabled: {
       background: {
-        color: 'primary',
+        color: 'transparent',
       },
       color: 'contrast'
     }
