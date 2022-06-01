@@ -11,7 +11,7 @@ export class UserRepository {
     private userModel: Model<UserDocument>,
   ) {}
 
-  async create(user: User): Promise<Partial<User>> {
+  async create(user: User): Promise<User> {
     const newUser = new this.userModel(user);
     return await newUser.save();
   }
@@ -20,19 +20,15 @@ export class UserRepository {
     return await this.userModel.findOne({ email });
   }
 
-  async update(id: string, user: Partial<User>): Promise<User> {
-    return await this.userModel.findByIdAndUpdate(id, user, {
-      new: true,
-    });
-  }
-
   async findById(id: string): Promise<User> {
     return await this.userModel.findOne({ _id: id });
   }
 
-  async resetPassword(id: string, password: string): Promise<User> {
-    return await this.userModel.findByIdAndUpdate(id, { password }, {
-      new: true,
-    });
+  async updatePassword(id: string, password: string): Promise<User> {
+    return await this.userModel.findOneAndUpdate(
+      { _id: id }, 
+      { password },
+      { new: true }
+    )
   }
 }

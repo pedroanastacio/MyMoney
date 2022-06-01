@@ -1,6 +1,8 @@
 import api from './api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IUser } from '../interfaces/IUser';
+import { IForgotPassword } from '../interfaces/IForgotPassword';
+import { IResetPassword } from '../interfaces/IResetPassword';
 
 class AuthService {
 
@@ -25,6 +27,14 @@ class AuthService {
             return rejectWithValue(error);
         }
     });
+
+    public forgotPassword = async (data: IForgotPassword) => {
+        await api.post('/auth/forgot-password', data);
+    }
+
+    public resetPassword = async (data: IResetPassword) => {
+        await api.put('/auth/reset-password', data);
+    }
 }
 
 const authService = new AuthService();

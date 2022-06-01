@@ -1,18 +1,17 @@
 /* eslint-disable prettier/prettier */
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { AuthRepository } from './auth.repository';
 import * as bcrypt from 'bcrypt';
-import { AuthService } from './auth.service';
-import { UserWithId } from './requestWithUser.interface';
+import { UserWithId } from './request-with-user.interface';
+import { TokenPayload } from './token-payload.interface';
+import { RefreshTokenService } from 'src/auth/refresh-token/refresh-token.service';
 
 @Injectable()
 export class JwtRefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-refresh-token') {
   constructor(
-    private authRepository: AuthRepository,
-    private authService: AuthService
+    private refreshTokenService: RefreshTokenService
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([(request: Request) => {
@@ -24,10 +23,10 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-ref
     });
   }
 
-  async validate(request: Request, payload: any): Promise<Partial<UserWithId>> {
+  async validate(request: Request, payload: TokenPayload): Promise<Partial<UserWithId>> {
     const refreshToken = request.body?.refresh_token;
-    const refreshTokenHmac = this.authService.createHmacRefreshToken(refreshToken);
-    const persistedRefreshToken = await this.authRepository.getRefreshTokenByUser(payload.sub);
+    const refreshTokenHmac = this.refreshTokenService.createHmacRefreshToken(refreshToken);
+    const persistedRefreshToken = await this.refreshTokenService.findByUser(payload.sub);
     if (persistedRefreshToken && await bcrypt.compare(refreshTokenHmac, persistedRefreshToken.token))
       return { _id: payload.sub };
   }

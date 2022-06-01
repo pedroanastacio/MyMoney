@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { User } from './user.schema';
-import * as bcrypt from 'bcrypt';
+import { hash } from 'src/utils/hash';
 
 @Injectable()
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
-  removePassword(user: any): Partial<User> {
+  removePassword(user: User & { _id?: string }): Partial<User> {
     const partialUser = {
       _id: user._id,
       name: user.name,
@@ -17,26 +17,23 @@ export class UserService {
   }
 
   async create(user: User): Promise<Partial<User>> {
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
+    user.password = await hash(user.password);
     const createdUser = await this.userRepository.create(user);
     return this.removePassword(createdUser);
   }
 
-  async update(id: string, user: Partial<User>): Promise<Partial<User>> {
-    const updatedUser = await this.userRepository.update(id, user);
-    return this.removePassword(updatedUser);
+  async findByEmail(email: string): Promise<User> {
+    return await this.userRepository.findByEmail(email);
   }
 
   async findById(id: string): Promise<Partial<User>> {
     const user = await this.userRepository.findById(id);
-    if (user) return this.removePassword(user);
-    return user;
+    return this.removePassword(user);
   }
 
-  async resetPassword(id: string, password: string): Promise<void> {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    await this.userRepository.resetPassword(id, hashedPassword);
+  async updatePassword(id: string, password: string): Promise<Partial<User>> {
+    const hashedPassword = await hash(password);
+    const user = await this.userRepository.updatePassword(id, hashedPassword);
+    return this.removePassword(user);
   }
 }

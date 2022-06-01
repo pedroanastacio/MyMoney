@@ -8,6 +8,8 @@ import PublicLayout from './Public';
 import Login from './Public/Login';
 import CreateAccount from './Public/CreateAccount';
 import PageNotFound from './NotFound';
+import ForgotPassword from './Public/ForgotPassword';
+import ResetPassword from './Public/ResetPassword';
 
 const Pages = () => {
 
@@ -16,6 +18,8 @@ const Pages = () => {
         <Route element={<PublicLayout />}>
           <Route path='login' element={<Login />} />
           <Route path='create-account' element={<CreateAccount />} />
+          <Route path='forgot-password' element={<ForgotPassword />} />
+          <Route path='reset-password' element={<ResetPassword />} />
         </Route>
         <Route element={<ProtectedLayout />}>
           <Route path='' element={<Dashboard />} />

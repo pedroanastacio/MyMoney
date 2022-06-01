@@ -3,8 +3,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString, ValidateNested, Min, Max } from 'class-validator';
 import { Document } from 'mongoose';
-import { CreditSchema, Credit } from 'src/credit/credit.schema';
-import { DebtSchema, Debt } from 'src/debt/debt.schema';
+import { CreditSchema, Credit } from 'src/billing-cycle/credit/credit.schema';
+import { DebtSchema, Debt } from 'src/billing-cycle/debt/debt.schema';
 
 export type BillingCycleDocument = BillingCycle & Document;
 

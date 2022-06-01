@@ -7,23 +7,18 @@ import { LocalStrategy } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './jwt.strategy';
-import { MongooseModule } from '@nestjs/mongoose';
-import { RefreshToken, RefreshTokenSchema } from './refresh-token.schema';
-import { AuthRepository } from './auth.repository';
 import { JwtRefreshTokenStrategy } from './jwt-refresh-token.strategy';
+import { RefreshTokenModule } from 'src/auth/refresh-token/refresh-token.module';
+import { ForgotPasswordTokenModule } from './forgot-password-token/forgot-password-token.module';
 
 @Module({
-  providers: [
-    AuthService,
-    AuthRepository,
-    LocalStrategy,
-    JwtStrategy,
-    JwtRefreshTokenStrategy,
-  ],
+  providers: [AuthService, LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy],
   controllers: [AuthController],
   imports: [
     UserModule,
     PassportModule,
+    RefreshTokenModule,
+    ForgotPasswordTokenModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -32,9 +27,6 @@ import { JwtRefreshTokenStrategy } from './jwt-refresh-token.strategy';
         signOptions: { expiresIn: config.get('JWT_ACCESS_TOKEN_EXPIRES_IN') },
       }),
     }),
-    MongooseModule.forFeature([
-      { name: RefreshToken.name, schema: RefreshTokenSchema },
-    ]),
   ],
 })
 export class AuthModule {}

@@ -71,6 +71,17 @@ const Login: React.FC = () => {
           {...register('password')}
         />
         <FormError>{errors.password?.message!}</FormError>
+        <Box>
+          <Text
+            size='small'
+            alignSelf='end'
+            color='secondary-light'
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate('/forgot-password')}
+          >
+            Esqueci minha senha
+          </Text>
+        </Box>
         <Box margin={{ top: isSizeSmall(size) ? 'large' : 'medium' }}>
           <Button
             type='submit'
@@ -91,9 +102,7 @@ const Login: React.FC = () => {
         <Text
           color='primary'
           margin={{ left: '5px' }}
-          style={{
-            cursor: 'pointer'
-          }}
+          style={{ cursor: 'pointer' }}
           onClick={() => navigate('/create-account')}
         >
           Criar conta
