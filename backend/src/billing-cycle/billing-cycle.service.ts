@@ -1,23 +1,24 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
+import { UserWithId } from 'src/auth/request-with-user.interface';
 import { Summary } from 'src/utils/summary';
 import { BillingCycleRepository } from './billing-cycle.repository';
 import { BillingCycle } from './billing-cycle.schema';
 
 @Injectable()
 export class BillingCycleService {
-  constructor(private billingCycleRepository: BillingCycleRepository) {}
+  constructor(private billingCycleRepository: BillingCycleRepository) { }
 
-  async findAll(skip = 0, limit?: number): Promise<BillingCycle[]> {
-    return await this.billingCycleRepository.findAll(skip, limit);
+  async findAll(user: UserWithId, skip = 0, limit?: number): Promise<BillingCycle[]> {
+    return await this.billingCycleRepository.findAll(user, skip, limit);
   }
 
   async findById(id: string): Promise<BillingCycle> {
     return await this.billingCycleRepository.findById(id);
   }
 
-  async create(billingCycle: BillingCycle): Promise<BillingCycle> {
-    return await this.billingCycleRepository.create(billingCycle);
+  async create(billingCycle: BillingCycle, user: UserWithId): Promise<BillingCycle> {
+    return await this.billingCycleRepository.create(billingCycle, user);
   }
 
   async update(id: string, billingCycle: BillingCycle): Promise<BillingCycle> {
@@ -28,11 +29,13 @@ export class BillingCycleService {
     return await this.billingCycleRepository.delete(id);
   }
 
-  async count(): Promise<number> {
-    return await this.billingCycleRepository.count();
+  async count(user: UserWithId): Promise<number> {
+    return await this.billingCycleRepository.count(user);
   }
 
-  async summary(): Promise<Summary> {
-    return await this.billingCycleRepository.summary();
+  async summary(user: UserWithId): Promise<Summary> {
+    const summary = await this.billingCycleRepository.summary(user);
+    if (!summary) return { credit: 0, debt: 0 };
+    return summary;
   }
 }

@@ -8,6 +8,8 @@ import { Logout, ContactInfo } from 'grommet-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../../../../store';
 import { AuthSlice } from '../../../../../store/Auth/slice';
+import { DashboardSlice } from '../../../../../store/Dashboard/slice';
+import { BillingCycleSlice } from '../../../../../store/BillingCycle/slice';
 
 const UserActions: React.FC = () => {
 
@@ -34,6 +36,8 @@ const UserActions: React.FC = () => {
 
     const handleLogoutClick = () => {
         dispatch(AuthSlice.actions.logout());
+        dispatch(DashboardSlice.actions.reset());
+        dispatch(BillingCycleSlice.actions.reset());
         navigate('/login', { replace: true });
     }
 

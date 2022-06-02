@@ -13,7 +13,13 @@ const initialState: ISummaryState = {
 export const DashboardSlice = createSlice({
     name: 'dashboard',
     initialState,
-    reducers: {},
+    reducers: {
+        reset: (state) => {
+            state.summary = initialState.summary;
+            state.status = initialState.status;
+            state.error = initialState.error;
+        }
+    },
     extraReducers(builder) {
         builder
             .addCase(DashboardService.fetchSummary.pending, (state, action) => {

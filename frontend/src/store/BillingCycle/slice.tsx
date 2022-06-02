@@ -28,6 +28,12 @@ export const BillingCycleSlice = createSlice({
         },
         resetForm: (state) => {
             state.formData = initialState.formData
+        },
+        reset: (state) => {
+            state.list = initialState.list;
+            state.formData = initialState.formData;
+            state.status = initialState.status;
+            state.error = initialState.error;
         }
     },
     extraReducers(builder) {

@@ -2,9 +2,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString, ValidateNested, Min, Max } from 'class-validator';
+import mongoose from 'mongoose';
 import { Document } from 'mongoose';
 import { CreditSchema, Credit } from 'src/billing-cycle/credit/credit.schema';
 import { DebtSchema, Debt } from 'src/billing-cycle/debt/debt.schema';
+import { User } from 'src/user/user.schema';
 
 export type BillingCycleDocument = BillingCycle & Document;
 
@@ -39,6 +41,9 @@ export class BillingCycle {
   @ValidateNested({ each: true })
   @Type(() => Debt)
   debts: [Debt]
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  user: User;
 }
 
 export const BillingCycleSchema = SchemaFactory.createForClass(BillingCycle);

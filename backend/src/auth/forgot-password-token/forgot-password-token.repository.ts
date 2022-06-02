@@ -22,6 +22,6 @@ export class ForgotPasswordTokenRepository {
     }
 
     async delete(id: string): Promise<ForgotPasswordToken> {
-        return await this.forgotPasswordTokenModel.findByIdAndDelete(id).exec();
+        return await this.forgotPasswordTokenModel.findByIdAndDelete(id);
       }
 }
