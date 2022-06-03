@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { Summary } from 'src/utils/summary';
 import { UserWithId } from 'src/auth/request-with-user.interface';
 import mongoose from 'mongoose';
+import { IPaginateList } from '../utils/paginated-list.interface';
 
 @Injectable()
 export class BillingCycleRepository {
@@ -14,13 +15,13 @@ export class BillingCycleRepository {
     private billingCycleModel: Model<BillingCycleDocument>,
   ) { }
 
-  async findAll(user: UserWithId, skip = 0, limit?: number): Promise<BillingCycle[]> {
-    const findQuery = this.billingCycleModel
+  async findAll(user: UserWithId, page: number, limit: number): Promise<IPaginateList<BillingCycle>> {
+    const items = await this.billingCycleModel
       .find({ user: user._id })
-      .sort({ _id: 1 })
-      .skip(skip);
-    if (limit) findQuery.limit(limit);
-    return await findQuery.exec();
+      .skip((page - 1) * limit)
+      .limit(limit);
+    const count = await this.count(user);
+    return { items, count };
   }
 
   async findById(id: string): Promise<BillingCycle> {

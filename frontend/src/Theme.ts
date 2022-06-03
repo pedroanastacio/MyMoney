@@ -158,6 +158,11 @@ const Theme = deepMerge({
         size: '1rem'
       },
     }
+  },
+  pagination: {
+    button: {
+      color: 'text'
+    }
   }
 });
 

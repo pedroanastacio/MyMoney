@@ -1,12 +1,13 @@
 import api from './api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IBillingCycle } from '../interfaces/IBillingCycle';
+import { IPaginateParams } from '../interfaces/IPaginateParams';
 
 class BillingCycleService {
 
-    public fetchBillingCycles = createAsyncThunk('billingCycle/fetchBillingCycles', async (_, { rejectWithValue }) => {
+    public fetchBillingCycles = createAsyncThunk('billingCycle/fetchBillingCycles', async (data: IPaginateParams, { rejectWithValue }) => {
         try {
-            const { data: billingCycles } = await api.get('/billing-cycle');
+            const { data: billingCycles } = await api.get('/billing-cycle', { params: { page: data.page, limit: data.limit }});
             return billingCycles;
         } catch (error: any) {
             return rejectWithValue(error);

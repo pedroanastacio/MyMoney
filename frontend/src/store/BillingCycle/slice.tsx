@@ -7,7 +7,7 @@ import BillingCycleService from '../../services/billingCycle';
 import { showErrorToast } from '../../utils/showErrorToast';
 
 const initialState: IBillingCycleState = {
-    list: [],
+    list: { items: [], count: 0 },
     formData: {
         name: '',
         month: new Date().getMonth() + 1,
@@ -51,7 +51,8 @@ export const BillingCycleSlice = createSlice({
                 showErrorToast(state.error);
             })
             .addCase(BillingCycleService.createBillingCycle.fulfilled, (state, action) => {
-                state.list.push(action.payload);
+                state.list.items.push(action.payload);
+                state.list.count++;
                 toast.success('Ciclo de pagamento salvo!');
             })
             .addCase(BillingCycleService.createBillingCycle.rejected, (state, action) => {
@@ -64,7 +65,7 @@ export const BillingCycleSlice = createSlice({
                 showErrorToast(action.payload as string);
             })
             .addCase(BillingCycleService.updateBillingCycle.fulfilled, (state, action) => {
-                state.list = state.list.map(item => item._id === action.payload._id ?
+                state.list.items = state.list.items.map(item => item._id === action.payload._id ?
                     { ...item, ...action.payload } :
                     item
                 );
@@ -74,7 +75,8 @@ export const BillingCycleSlice = createSlice({
                 showErrorToast(action.payload as string);
             })
             .addCase(BillingCycleService.deleteBillingCycle.fulfilled, (state, action) => {
-                state.list = state.list.filter(item => item._id !== action.payload._id);
+                state.list.items = state.list.items.filter(item => item._id !== action.payload._id);
+                state.list.count--;
                 toast.success('Ciclo de pagamento removido!');
             })
             .addCase(BillingCycleService.deleteBillingCycle.rejected, (state, action) => {

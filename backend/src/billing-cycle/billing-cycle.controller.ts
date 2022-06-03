@@ -31,12 +31,12 @@ export class BillingCycleController {
   async findAll(
     @Res() response: Response,
     @Request() request: RequestWithUser,
-    @Query() { skip, limit }: PaginationParams,
+    @Query() { page, limit }: PaginationParams,
   ) {
     const billingCycles = await this.billingCycleService.findAll(
       request.user,
-      skip,
-      limit,
+      page ?? 1,
+      limit ?? 10,
     );
     return response.json(billingCycles);
   }

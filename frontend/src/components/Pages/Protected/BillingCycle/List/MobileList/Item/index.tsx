@@ -1,7 +1,7 @@
 import { Box, Button } from 'grommet';
 import { Edit, Trash } from 'grommet-icons';
 import React from 'react';
-import { IBillingCycle } from '../../../../../../interfaces/IBillingCycle';
+import { IBillingCycle } from '../../../../../../../interfaces/IBillingCycle';
 import ListItemField from './Field';
 
 type ListItemProps = {

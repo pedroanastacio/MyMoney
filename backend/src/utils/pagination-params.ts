@@ -6,9 +6,9 @@ export class PaginationParams {
 
   @Type(() => Number)
   @IsOptional()
-  @IsNumber({},{ message: 'O parâmetro "skip" deve ser um número'})
-  @Min(0, { message: 'O parâmetro "skip" deve ser maior ou igual a 0' })
-  skip?: number;
+  @IsNumber({},{ message: 'O parâmetro "page" deve ser um número'})
+  @Min(0, { message: 'O parâmetro "page" deve ser maior ou igual a 0' })
+  page?: number;
 
   @Type(() => Number)
   @IsOptional()

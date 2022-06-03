@@ -1,51 +1,41 @@
-import React, { useCallback, useContext, useEffect } from 'react';
-import { Box, Table, ResponsiveContext, TableHeader, TableRow, TableCell, Text, TableBody, Button } from 'grommet';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Box, Pagination, PaginationProps, ResponsiveContext } from 'grommet';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../../store';
 import BillingCycleService from '../../../../../services/billingCycle';
-import 'react-loading-skeleton/dist/skeleton.css';
-import Skeleton from 'react-loading-skeleton';
-import ListITem from './Item';
-import { Edit, Trash } from 'grommet-icons';
 import { IBillingCycle } from '../../../../../interfaces/IBillingCycle';
 import { TabsSlice } from '../../../../../store/Tabs/slice';
 import { TABS } from '..';
 import { BillingCycleSlice } from '../../../../../store/BillingCycle/slice';
-
-interface IColumns {
-    property: 'name' | 'month' | 'year' | 'actions'
-    header: string
-}
-
-const COLUMNS: IColumns[] = [
-    {
-        property: 'name',
-        header: 'Nome'
-    },
-    {
-        property: 'month',
-        header: 'Mês'
-    },
-    {
-        property: 'year',
-        header: 'Ano'
-    },
-    {
-        property: 'actions',
-        header: 'Ações'
-    }
-]
+import { useSearchParams } from 'react-router-dom';
+import { handlePaginationParams } from '../../../../../utils/handlePaginationParams';
+import EmptyListMessage from '../../../../Common/EmptyListMessage';
+import BillingCycleListLoader from './Loader';
+import BillingCycleMobileList from './MobileList';
+import BillingCycleTable from './Table';
 
 const BillingCycleList: React.FC = () => {
 
-    const dispatch: AppDispatch = useDispatch();
-    const { list, status } = useSelector((state: RootState) => state.billingCycle);
     const size = useContext(ResponsiveContext);
+    const dispatch: AppDispatch = useDispatch();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [page, setPage] = useState<number>(handlePaginationParams(searchParams.get('page')!, 1));
+    const limit = handlePaginationParams(searchParams.get('limit')!, 10);
+    const { list, status } = useSelector((state: RootState) => state.billingCycle);
 
     useEffect(() => {
-        if (status === 'idle') dispatch(BillingCycleService.fetchBillingCycles());
-    }, [status, dispatch]);
+        if (status === 'idle') dispatch(BillingCycleService.fetchBillingCycles({ page, limit }));
+    }, [status, dispatch, page, limit]);
+
+    const handlePaginationClick = useCallback(({ page }: PaginationProps) => {
+        setPage(page!);
+        setSearchParams({
+            page: page!.toString(),
+            limit: limit.toString()
+        })
+        dispatch(BillingCycleService.fetchBillingCycles({ page: page!, limit }));
+    }, [dispatch, limit, setSearchParams]);
 
     const handleEditClick = useCallback((item: IBillingCycle): void => {
         dispatch(BillingCycleSlice.actions.setFormData(item));
@@ -59,87 +49,52 @@ const BillingCycleList: React.FC = () => {
         dispatch(TabsSlice.actions.setActiveIndex(TABS.remove.index));
     }, [dispatch]);
 
-    const renderActions = useCallback((item: IBillingCycle): JSX.Element => (
-        <Box direction='row'>
-            <Button
-                icon={<Edit color='secondary-light' />}
-                onClick={() => handleEditClick(item)}
-            />
-            <Button
-                icon={<Trash color='secondary-light' />}
-                onClick={() => handleDeleteClick(item)}
-            />
-        </Box>
-    ), [handleDeleteClick, handleEditClick]);
-
-    const renderTable = useCallback((): JSX.Element => (
-        <Box background='contrast'>
-            <Table className='grommet-table'>
-                <TableHeader>
-                    <TableRow>
-                        {COLUMNS.map(col => (
-                            <TableCell key={col.property}>
-                                <Text>{col.header}</Text>
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {list.map(item => (
-                        <TableRow key={item._id}>
-                            {COLUMNS.map(col => (
-                                col.property === 'actions' ?
-                                    <TableCell key={col.property}>{renderActions(item)}</TableCell>
-                                    :
-                                    <TableCell key={col.property}>
-                                        <Text>{item[col.property]}</Text>
-                                    </TableCell>
-                            ))}
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </Box>
-    ), [list, renderActions]);
-
-    const renderList = useCallback((): JSX.Element => (
-        <Box
-            tag='ul'
-            background='contrast'
-            style={{ 'listStyleType': 'none', padding: '0px', margin: '0px' }}
-        >
-            {list.map(item => (
-                <ListITem
-                    item={item}
-                    key={item._id}
+    const renderTableOrList = useCallback((): JSX.Element => {
+        if (size !== 'xsmall')
+            return (
+                <BillingCycleTable
+                    list={list}
                     onEditClick={handleEditClick}
                     onDeleteClick={handleDeleteClick}
                 />
-            ))}
-        </Box>
-    ), [list, handleEditClick, handleDeleteClick]);
-
-    const renderLoading = useCallback((): JSX.Element => (
-        <>
-            <Skeleton height={50} />
-            <Skeleton height={250} />
-        </>
-    ), []);
+            );
+        else
+            return (
+                <BillingCycleMobileList
+                    list={list}
+                    onEditClick={handleEditClick}
+                    onDeleteClick={handleDeleteClick}
+                />
+            );
+    }, [handleDeleteClick, handleEditClick, list, size])
 
     const renderContent = useCallback((): JSX.Element => {
-        if (status === 'succeeded' && size !== 'xsmall')
-            return renderTable();
-        else if (status === 'succeeded')
-            return renderList();
+        if (status === 'succeeded') {
+            if (list.count === 0)
+                return <EmptyListMessage>Nenhum ciclo de pagamento encontrado</EmptyListMessage>;
+            else
+                return (
+                    <Box background='contrast'>
+                        {renderTableOrList()}
+                        <Pagination
+                            alignSelf='center'
+                            margin={{ vertical: 'medium' }}
+                            size='small'
+                            numberItems={list.count}
+                            onChange={handlePaginationClick}
+                            page={page}
+                        />
+                    </Box>
+                );
+        }
         else
-            return renderLoading();
-    }, [status, size, renderLoading, renderList, renderTable]);
+            return <BillingCycleListLoader />;
+    }, [status, list.count, renderTableOrList, handlePaginationClick, page]);
 
     return (
         <>
             {renderContent()}
         </>
-
     );
 }
 

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { UserWithId } from 'src/auth/request-with-user.interface';
+import { IPaginateList } from 'src/utils/paginated-list.interface';
 import { Summary } from 'src/utils/summary';
 import { BillingCycleRepository } from './billing-cycle.repository';
 import { BillingCycle } from './billing-cycle.schema';
@@ -9,8 +10,8 @@ import { BillingCycle } from './billing-cycle.schema';
 export class BillingCycleService {
   constructor(private billingCycleRepository: BillingCycleRepository) { }
 
-  async findAll(user: UserWithId, skip = 0, limit?: number): Promise<BillingCycle[]> {
-    return await this.billingCycleRepository.findAll(user, skip, limit);
+  async findAll(user: UserWithId, page: number, limit: number): Promise<IPaginateList<BillingCycle>> {
+    return await this.billingCycleRepository.findAll(user, page, limit);
   }
 
   async findById(id: string): Promise<BillingCycle> {

@@ -31,9 +31,9 @@ const ResetPassword: React.FC = () => {
 
     const size = useContext(ResponsiveContext);
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams()
-    const forgotPasswordToken = searchParams.get('token')
-    const userId = searchParams.get('id')
+    const [searchParams, setSearchParams] = useSearchParams();
+    const forgotPasswordToken = searchParams.get('token');
+    const userId = searchParams.get('id');
     const [loading, setLoading] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors } } = useForm<IResetPasswordForm>({
         resolver: yupResolver(schema),
