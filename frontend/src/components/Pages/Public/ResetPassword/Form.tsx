@@ -1,17 +1,20 @@
 import { Box, Button, Form, FormField, ResponsiveContext, Spinner, Text } from 'grommet';
+import { LinkPrevious, Lock } from 'grommet-icons';
 import React, { useContext, useState } from 'react';
-import { isSizeSmall } from '../../../utils/isSizeSmall';
-import Logo from '../../Common/Logo';
+import { useNavigate } from 'react-router-dom';
+import { isSizeSmall } from '../../../../utils/isSizeSmall';
+import FormError from '../../../Common/FormError';
 import * as yup from 'yup';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { LinkPrevious, Lock } from 'grommet-icons';
-import AuthService from '../../../services/auth';
+import { IResetPasswordForm } from '../../../../interfaces/IResetPasswordForm';
 import { toast } from 'react-toastify';
-import { showErrorToast } from '../../../utils/showErrorToast';
-import { IResetPasswordForm } from '../../../interfaces/IResetPasswordForm';
-import FormError from '../../Common/FormError';
+import { showErrorToast } from '../../../../utils/showErrorToast';
+
+type ResetPasswordFormProps = {
+    submit: (data: IResetPasswordForm) => Promise<void>
+    previousRoute: string
+}
 
 const schema = yup.object({
     password: yup
@@ -27,13 +30,10 @@ const schema = yup.object({
         .oneOf([yup.ref('password')], 'As senhas devem ser iguais')
 })
 
-const ResetPassword: React.FC = () => {
-
+const ResetPasswordForm: React.FC<ResetPasswordFormProps> = (props) => {
+    
     const size = useContext(ResponsiveContext);
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const forgotPasswordToken = searchParams.get('token');
-    const userId = searchParams.get('id');
     const [loading, setLoading] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors } } = useForm<IResetPasswordForm>({
         resolver: yupResolver(schema),
@@ -42,18 +42,13 @@ const ResetPassword: React.FC = () => {
             confirmPassword: ''
         }
     });
-
     const onSubmit = handleSubmit(async (data: IResetPasswordForm) => {
         setLoading(true);
 
         try {
-            await AuthService.resetPassword({
-                user_id: userId!,
-                forgot_password_token: forgotPasswordToken!,
-                password: data.password
-            });
+            await props.submit(data);
             toast.success('Senha alterada com sucesso');
-            navigate('/login');
+            navigate(props.previousRoute);
         } catch (error: any) {
             showErrorToast(error);
         } finally {
@@ -63,9 +58,6 @@ const ResetPassword: React.FC = () => {
 
     return (
         <>
-            <Box align='center' margin={{ bottom: isSizeSmall(size) ? 'large' : 'medium' }}>
-                <Logo color='primary' />
-            </Box>
             <Text
                 color='secondary-light'
                 size='large'
@@ -74,7 +66,7 @@ const ResetPassword: React.FC = () => {
             >
                 Alterar senha
             </Text>
-            <Form onSubmit={onSubmit}>
+            <Form style={{ width: '100%' }} onSubmit={onSubmit}>
                 <FormField
                     type='password'
                     label='Senha'
@@ -99,7 +91,7 @@ const ResetPassword: React.FC = () => {
                         secondary
                         icon={<LinkPrevious color='secondary-light' />}
                         margin={{ right: 'small' }}
-                        onClick={() => navigate('/login')}
+                        onClick={() => navigate(props.previousRoute)}
                     />
                     <Button
                         type='submit'
@@ -115,4 +107,4 @@ const ResetPassword: React.FC = () => {
     );
 }
 
-export default ResetPassword;
+export default ResetPasswordForm;

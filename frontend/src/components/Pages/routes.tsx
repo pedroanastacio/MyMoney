@@ -10,6 +10,7 @@ import CreateAccount from './Public/CreateAccount';
 import PageNotFound from './NotFound';
 import ForgotPassword from './Public/ForgotPassword';
 import ResetPassword from './Public/ResetPassword';
+import ChangePassword from './Protected/ChangePassword';
 
 const Pages = () => {
 
@@ -27,6 +28,7 @@ const Pages = () => {
             <Route path='billing-cycle' element={<BillingCycle />} />
           </Route>
           <Route path='profile' element={<Profile />} />
+          <Route path='change-password' element={<ChangePassword />} />
         </Route>
         <Route path='*' element={<PageNotFound />} />
       </Routes>

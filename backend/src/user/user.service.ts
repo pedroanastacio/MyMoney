@@ -36,4 +36,9 @@ export class UserService {
     const user = await this.userRepository.updatePassword(id, hashedPassword);
     return this.removePassword(user);
   }
+
+  async update(id: string, user: Partial<User>): Promise<Partial<User>> {
+    const newUser = await this.userRepository.update(id, user);
+    return this.removePassword(newUser);
+  }
 }

@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IAuthResponse } from '../../interfaces/IAuthResponse';
 import { IAuthState } from '../../interfaces/IAuthState';
+import { IUser } from '../../interfaces/IUser';
 import AuthService from '../../services/auth';
+import UserService from '../../services/user';
 import { showErrorToast } from '../../utils/showErrorToast';
 
 export const authKey = 'my-money-auth';
@@ -51,6 +53,9 @@ export const AuthSlice = createSlice({
             })
             .addCase(AuthService.authenticateWithRefreshToken.rejected, (state, action) => {
                 resetAuthState(state);
+            })
+            .addCase(UserService.update.fulfilled, (state, action: PayloadAction<IUser>) => {
+                state.user = action.payload;
             })
     }
 })
