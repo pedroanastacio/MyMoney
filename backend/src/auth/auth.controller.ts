@@ -14,6 +14,7 @@ import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { JwtRefreshTokenGuard } from './jwt-refresh-token.guard';
 import { LocalAuthGuard } from './local-auth.guard';
+import { LoginExceptionFilter } from './login-exception.filter';
 import { RefreshTokenExceptionFilter } from './refresh-token-exception.filter';
 import RequestWithUser from './request-with-user.interface';
 
@@ -23,6 +24,7 @@ export class AuthController {
 
   @Post('/login')
   @HttpCode(HttpStatus.OK)
+  @UseFilters(LoginExceptionFilter)
   @UseGuards(LocalAuthGuard)
   async login(@Res() response: Response, @Request() request: RequestWithUser) {
     const result = await this.authService.login(request.user);
