@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  db:
+    image: mongo:4.2
+    container_name: $DB_HOST
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$DB_USER 
+      - MONGO_INITDB_ROOT_PASSWORD=$DB_PASSWORD
+    ports:
+      - $DB_LOCAL_PORT:$DB_DOCKER_PORT
+    volumes:
+      - ./db:/data/db
+  server:
+    container_name: my-money-server
+    build: ./
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/app/server
+  client:
+    container_name: my-money-client
+    build: ../frontend
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../frontend:/app/client
+volumes:
+  db:

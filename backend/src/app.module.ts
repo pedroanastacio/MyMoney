@@ -13,7 +13,8 @@ import { AuthModule } from './auth/auth.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
-        uri: config.get('MONGO_URI'),
+        // eslint-disable-next-line prettier/prettier
+        uri: `mongodb://${config.get('DB_USER')}:${config.get('DB_PASSWORD')}@${config.get('DB_HOST')}:${config.get('DB_DOCKER_PORT')}/${config.get('DB_DATABASE')}?authSource=admin`,
       }),
     }),
     ConfigModule.forRoot({ isGlobal: true }),
