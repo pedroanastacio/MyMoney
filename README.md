@@ -4,7 +4,25 @@ MyMoney is a simple application for managing your money. Simply register with an
 
 This project was developed during the course "Next.js e React - Curso Completo - Aprenda com Projetos" available on Udemy in order to deepen my knowledge about ReactJS, Redux and NestJS. 
 
-### A few features:
+<details>
+ <summary>
+ <h2>:camera: Images</h2>
+ </summary>
+ <p float="center">
+  <img src="https://i.imgur.com/0ph8p7a.png" width="500" />
+  <img src="https://i.imgur.com/mBB1jWG.png" width="500" />
+  <img src="https://i.imgur.com/4P2bdjC.png" width="500" />
+   <img src="https://i.imgur.com/XwKHHpx.png" width="500" />
+     <img src="https://i.imgur.com/kbP5q8W.png" width="500" />
+     <img src="https://i.imgur.com/L0f2pB1.png" width="500" />
+      <img src="https://i.imgur.com/WcwPhpr.png" width="500" />
+      <img src="https://i.imgur.com/yhB8bkF.png" width="500" />
+       <img src="https://i.imgur.com/qhIOAh7.png" width="500" />
+         <img src="https://i.imgur.com/pP97KR8.png" width="500" />        
+ </p>
+</details>
+
+## :clipboard: Features
  - User regristration;
  - Recovery password by email;
  - Reset password;
@@ -13,9 +31,7 @@ This project was developed during the course "Next.js e React - Curso Completo -
  - Statement of total receivables, payments and consolidated value;
  - Payment cycle listing.
  
-  ## 
- 
-### Running the app
+## :rocket: Running the app
 #### 1) Installing dependencies
 - In the /frontend and /backend directories run the command: `yarn install`.
 
@@ -26,9 +42,8 @@ This project was developed during the course "Next.js e React - Curso Completo -
 #### 3) Running the application
  - In the /backend directory run the command: `docker-compose -p my-money up -d`
  
- ##
- 
- ### Development technologies
+
+ ## :zap: Technologies
  <div style="display: inline_block"><br>
    <img align="center" alt="ReactJS" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
    <img align="center" alt="NodeJS" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg">
