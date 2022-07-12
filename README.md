@@ -12,13 +12,13 @@ This project was developed during the course "Next.js e React - Curso Completo -
   <img src="https://i.imgur.com/0ph8p7a.png" width="500" />
   <img src="https://i.imgur.com/mBB1jWG.png" width="500" />
   <img src="https://i.imgur.com/4P2bdjC.png" width="500" />
-   <img src="https://i.imgur.com/XwKHHpx.png" width="500" />
-     <img src="https://i.imgur.com/kbP5q8W.png" width="500" />
-     <img src="https://i.imgur.com/L0f2pB1.png" width="500" />
-      <img src="https://i.imgur.com/WcwPhpr.png" width="500" />
-      <img src="https://i.imgur.com/yhB8bkF.png" width="500" />
-       <img src="https://i.imgur.com/qhIOAh7.png" width="500" />
-         <img src="https://i.imgur.com/pP97KR8.png" width="500" />        
+  <img src="https://i.imgur.com/XwKHHpx.png" width="500" />
+  <img src="https://i.imgur.com/kbP5q8W.png" width="500" />
+  <img src="https://i.imgur.com/L0f2pB1.png" width="500" />
+  <img src="https://i.imgur.com/WcwPhpr.png" width="500" />
+  <img src="https://i.imgur.com/yhB8bkF.png" width="500" />
+  <img src="https://i.imgur.com/qhIOAh7.png" width="500" />
+  <img src="https://i.imgur.com/pP97KR8.png" width="500" />        
  </p>
 </details>
 
@@ -45,11 +45,25 @@ This project was developed during the course "Next.js e React - Curso Completo -
 
  ## :zap: Technologies
  <div style="display: inline_block"><br>
-   <img align="center" alt="ReactJS" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
-   <img align="center" alt="NodeJS" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg">
-   <img align="center" alt="NestJS" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-plain.svg">
-   <img align="center" alt="Pedro-Js" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-plain-wordmark.svg">
-   <img align="center" alt="Pedro-Js" height="40" width="40" src="https://www.svgrepo.com/show/353841/grommet.svg">
-   <img align="center" alt="Pedro-Js" height="40" width="40" src="https://avatars.githubusercontent.com/u/7552965?s=280&v=4">
-   <img align="center" alt="Pedro-Js" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg">
+   <a href="https://www.typescriptlang.org/">
+     <img align="center" alt="TypeScript" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg">
+   </a>
+   <a href="https://reactjs.org/">
+    <img align="center" alt="ReactJS" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
+   </a>
+   <a href="https://v2.grommet.io/">
+    <img align="center" alt="Grommet" height="30" width="40" src="https://www.svgrepo.com/show/353841/grommet.svg">
+   </a>
+   <a href="https://nodejs.org/en/">
+    <img align="center" alt="NodeJS" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg">
+   </a>
+   <a href="https://nestjs.com/">
+    <img align="center" alt="NestJS" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-plain.svg">
+   </a>
+   <a href="https://mongoosejs.com/">
+    <img align="center" alt="Mongoose" height="30" width="40" src="https://avatars.githubusercontent.com/u/7552965?s=280&v=4">
+   </a>
+   <a href="https://www.mongodb.com/">
+    <img align="center" alt="MongoDB" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-plain-wordmark.svg">
+   </a>
 </div>
